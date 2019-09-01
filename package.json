@@ -1,0 +1,12 @@
+{
+    "dependencies": {
+        "create-react-class": "^15.6.3",
+        "react": "^16.7.0",
+        "react-dom": "^16.7.0",
+        "vexflow": "^1.2.87",
+        "fretboard-diagram": "^0.0.9"
+    },
+    "devDependencies": {
+        "source-map-support": "^0.5.13"
+    }
+}

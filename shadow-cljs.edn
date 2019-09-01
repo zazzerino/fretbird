@@ -1,0 +1,13 @@
+{:source-paths ["src"]
+ :dependencies [[cider/cider-nrepl "0.22.0"]
+                [reagent "0.8.1"]
+                [re-frame "0.10.9"]]
+ :builds {:app {:target     :browser
+                :output-dir "public/js"
+                :devtools   {:http-root  "public"
+                             :http-port  8080
+                             :after-load app.main/on-reload}
+                :modules    {:main {:init-fn app.main/main}}}
+          :test {:target    :node-test
+                 :output-to "public/js/node-tests.js"
+                 :autorun   true}}}
