@@ -1,11 +1,11 @@
-(ns app.main
+(ns fretbird.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
-            [app.db :as db]
-            [app.events :as events]
-            [app.views :as views]
-            [app.subs :as subs]
-            [app.theory :as theory]))
+            [fretbird.db :as db]
+            [fretbird.events :as events]
+            [fretbird.views :as views]
+            [fretbird.subs :as subs]
+            [fretbird.theory :as theory]))
 
 (defn on-reload [])
 

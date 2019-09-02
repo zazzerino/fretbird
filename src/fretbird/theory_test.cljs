@@ -1,7 +1,7 @@
-(ns app.theory-test
+(ns fretbird.theory-test
   (:require [cljs.test :refer [deftest is]]
             [clojure.spec.alpha :as spec]
-            [app.theory :as theory]))
+            [fretbird.theory :as theory]))
 
 (deftest parse-note-test
   (let [note (theory/parse-note "C4")]

@@ -1,7 +1,7 @@
-(ns app.events
+(ns fretbird.events
   (:require [re-frame.core :as re-frame]
             [clojure.spec.alpha :as spec]
-            [app.db :as db]))
+            [fretbird.db :as db]))
 
 (defn check-and-throw [spec db]
   (when-not (spec/valid? spec db)
@@ -15,3 +15,11 @@
  [check-spec-interceptor]
  (fn [_ _]
    (db/default-db)))
+
+(re-frame/reg-event-db
+ ::fretboard-clicked
+ [check-spec-interceptor]
+ (fn [db [_ fretboard-coord]]
+   (assoc db
+          :user-guess fretboard-coord
+          :dots [fretboard-coord])))

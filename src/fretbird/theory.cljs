@@ -1,4 +1,4 @@
-(ns app.theory
+(ns fretbird.theory
   (:require [clojure.spec.alpha :as spec]))
 
 (defn ^:private downcase-keyword [s]
@@ -34,17 +34,23 @@
          octave)))
 
 (defn random-note
-  ([{:keys [lowest-note highest-note]
-     :or {lowest-note "E3"
-          highest-note "G#5"}}]
+  ([{:keys [lowest-note highest-note]}]
    (let [white-keys [:c :d :e :f :g :a :b]
          accidentals [:bb :b nil :# :##]
          octaves (range (:octave (parse-note lowest-note))
-                        (:octave (parse-note highest-note)))]
-     (notename {:white-key (rand-nth white-keys)
-                :accidental (rand-nth accidentals)
-                :octave (rand-nth octaves)})))
-  ([] (random-note {})))
+                        (inc (:octave (parse-note highest-note))))
+         gen-note #(notename {:white-key (rand-nth white-keys)
+                              :accidental (rand-nth accidentals)
+                              :octave (rand-nth octaves)})]
+     (first (filter (fn [note]
+                      (let [low-midi (midi-number lowest-note)
+                            high-midi (midi-number highest-note)
+                            note-midi (midi-number note)]
+                        (<= low-midi note-midi high-midi)))
+                    (repeatedly gen-note)))))
+  ([]
+   (random-note {:lowest-note "E3"
+                 :highest-note "G#5"})))
 
 (defn transpose-note [note half-steps]
   (let [chromatic-sharps [:c :c# :d :d# :e :f :f# :g :g# :a :a# :b]

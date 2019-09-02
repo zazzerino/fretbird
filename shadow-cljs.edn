@@ -6,8 +6,8 @@
                 :output-dir "public/js"
                 :devtools   {:http-root  "public"
                              :http-port  8080
-                             :after-load app.main/on-reload}
-                :modules    {:main {:init-fn app.main/main}}}
+                             :after-load fretbird.core/on-reload}
+                :modules    {:main {:init-fn fretbird.core/main}}}
           :test {:target    :node-test
                  :output-to "public/js/node-tests.js"
                  :autorun   true}}}

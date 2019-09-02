@@ -1,9 +1,9 @@
-(ns app.stave
+(ns fretbird.stave
   (:require [reagent.core :as reagent]
             ["vexflow" :as Vex]
             [re-frame.core :as re-frame]
-            [app.subs :as subs]
-            [app.theory :as theory]))
+            [fretbird.subs :as subs]
+            [fretbird.theory :as theory]))
 
 (def ^:private vexflow (.-Flow Vex))
 
@@ -15,7 +15,6 @@
   (clojure.string/replace note #"(\d)" "/$1"))
 
 (defn ^:private make-vexflow-objects [{:keys [id width height]}]
-  (remove-children (.getElementById js/document id))
   (let [renderer (doto (new (.-Renderer vexflow)
                             (.getElementById js/document id)
                             (-> vexflow .-Renderer .-Backends .-SVG))
@@ -44,6 +43,7 @@
         note (re-frame/subscribe [::subs/note-to-guess])
         vexflow-objects (atom nil)
         draw (fn []
+               (remove-children (.getElementById js/document id))
                (reset! vexflow-objects (make-vexflow-objects {:id "stave" :width width :height height}))
                (add-note {:context (:context @vexflow-objects)
                           :stave (:stave @vexflow-objects)
