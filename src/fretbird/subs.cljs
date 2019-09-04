@@ -17,9 +17,8 @@
  (fn [db]
    (:dots db)))
 
-(defn ^:private correct-guess?
-  [note coord]
-  (theory/enharmonic? note (theory/note-at coord)))
+(def correct-color "limegreen")
+(def incorrect-color "tomato")
 
 (re-frame/reg-sub
  ::dot-color
@@ -27,6 +26,14 @@
    [(re-frame/subscribe [::note-to-guess])
     (re-frame/subscribe [::user-guess])])
  (fn [[note coord]]
-   (if (correct-guess? note coord)
-     "limegreen"
-    "tomato")))
+   (if (theory/correct-guess? note coord)
+     correct-color
+     incorrect-color)))
+
+(re-frame/reg-sub
+ ::status
+ (fn []
+   [(re-frame/subscribe [::note-to-guess])
+    (re-frame/subscribe [::user-guess])])
+ (fn [[note coord]]
+   (theory/correct-guess? note coord)))

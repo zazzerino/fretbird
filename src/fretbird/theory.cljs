@@ -98,3 +98,8 @@
               (fretboard-notes))
       first
       (select-keys [:string :fret])))
+
+(defn correct-guess?
+  [note coord]
+  (if (and note coord)
+    (enharmonic? note (note-at coord))))

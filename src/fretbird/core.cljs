@@ -1,6 +1,7 @@
 (ns fretbird.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as re-frame]
+            [fretbird.specs :as specs]
             [fretbird.db :as db]
             [fretbird.events :as events]
             [fretbird.views :as views]

@@ -6,14 +6,19 @@
 (deftest parse-note-test
   (let [note (theory/parse-note "C4")]
     (is (map? note))
-    (is (= :c (:white-key note)))
+    (is (= (:white-key note)
+           :c))
     (is (nil? (:accidental note)))
-    (is (= 4 (:octave note))))
+    (is (= (:octave note)
+           4)))
   (let [note (theory/parse-note "gbb7")]
     (is (map? note))
-    (is (= :g (:white-key note)))
-    (is (= :bb (:accidental note)))
-    (is (= 7 (:octave note)))))
+    (is (= (:white-key note)
+           :g))
+    (is (= (:accidental note)
+           :bb))
+    (is (= (:octave note)
+           7))))
 
 (deftest midi-number-test
   (is (= 60 (theory/midi-number "C4")))
