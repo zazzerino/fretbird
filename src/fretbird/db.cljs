@@ -4,4 +4,5 @@
 (defn default-db []
   {:note-to-guess (theory/random-note)
    :user-guess    nil
+   :status        :playing
    :dots          []})

@@ -60,3 +60,7 @@
          {:string 5 :fret 3}))
   (is (= (theory/fretboard-coord "B4")
          {:string 2 :fret 0})))
+
+(deftest correct-guess?-test
+  (is (true? (theory/correct-guess? "A#4" {:string 3 :fret 3})))
+  (is (true? (theory/correct-guess? "Bb4" {:string 3 :fret 3}))))

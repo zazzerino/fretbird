@@ -11,4 +11,4 @@
 
 (spec/def ::status #{:playing :correct-guess})
 
-(spec/def ::db (spec/keys :req-un [::note-to-guess ::user-guess ::dots]))
+(spec/def ::db (spec/keys :req-un [::note-to-guess ::user-guess ::status ::dots]))

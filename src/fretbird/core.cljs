@@ -8,7 +8,8 @@
             [fretbird.subs :as subs]
             [fretbird.theory :as theory]))
 
-(defn on-reload [])
+(defn on-reload []
+  (println "reloading"))
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)

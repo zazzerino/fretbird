@@ -6,11 +6,12 @@
             [fretbird.events :as events]
             [fretbird.subs :as subs]))
 
-(defn on-click [coord inst]
+(defn on-click [status coord inst]
   (let [string (.-string coord)
         fret   (.-fret coord)]
-    (re-frame/dispatch
-     [::events/fretboard-clicked {:string string :fret fret}])))
+    (if-not (= status :correct-guess)
+      (re-frame/dispatch
+       [::events/fretboard-click {:string string :fret fret}]))))
 
 (defn make-diagram [{:keys [id dots on-click]}]
   (new fd/FretboardDiagram
@@ -20,11 +21,12 @@
   (let [id     "fretboard"
         dots   (re-frame/subscribe [::subs/dots])
         color  (re-frame/subscribe [::subs/dot-color])
+        status (re-frame/subscribe [::subs/status])
         draw   #(make-diagram {:id       id
                                :dots     (map (fn [dot]
                                                 (assoc dot :color @color))
                                               @dots)
-                               :on-click on-click})]
+                               :on-click (partial on-click @status)})]
     (reagent/create-class
      {:display-name         "fretboard"
       :reagent-render       (fn []
