@@ -8,9 +8,6 @@
             [fretbird.subs :as subs]
             [fretbird.theory :as theory]))
 
-(defn on-reload []
-  (println "reloading"))
-
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
   (reagent/render [views/main-panel]

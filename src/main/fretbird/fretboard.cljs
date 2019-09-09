@@ -13,24 +13,23 @@
       (re-frame/dispatch
        [::events/fretboard-click {:string string :fret fret}]))))
 
-(defn make-diagram [{:keys [id dots on-click]}]
+(defn make-diagram [{:keys [id dots on-click hover-dots?]}]
   (new fd/FretboardDiagram
-       (clj->js {:id id :dots dots :onClick on-click})))
+       (clj->js {:id id :dots dots :onClick on-click :drawDotOnHover hover-dots?})))
 
 (defn fretboard []
   (let [id     "fretboard"
-        dots   (re-frame/subscribe [::subs/dots])
+        dots   (re-frame/subscribe [::subs/color-dots])
         color  (re-frame/subscribe [::subs/dot-color])
         status (re-frame/subscribe [::subs/status])
         draw   #(make-diagram {:id       id
-                               :dots     (map (fn [dot]
-                                                (assoc dot :color @color))
-                                              @dots)
+                               :dots     @dots
                                :on-click (partial on-click @status)})]
     (reagent/create-class
      {:display-name         "fretboard"
       :reagent-render       (fn []
-                              @dots ; this forces a re-render when dots is updated
+                              @dots
+                              @status
                               [:div.fretboard
                                [:div {:id id}]])
       :component-did-mount  draw

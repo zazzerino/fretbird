@@ -1,6 +1,7 @@
 (ns fretbird.theory-test
   (:require [cljs.test :refer [deftest is]]
             [clojure.spec.alpha :as spec]
+            [fretbird.specs :as specs]
             [fretbird.theory :as theory]))
 
 (deftest parse-note-test
@@ -35,7 +36,7 @@
 
 (deftest random-note-test
   (let [note (theory/random-note)]
-    (is (true? (spec/valid? ::theory/note note)))))
+    (is (true? (spec/valid? ::specs/note note)))))
 
 (deftest transpose-note-test
   (let [note "C4"]
@@ -53,7 +54,8 @@
 (deftest enharmonic?-test
   (is (theory/enharmonic? "C4" "C4"))
   (is (theory/enharmonic? "C4" "B#3"))
-  (is (not (theory/enharmonic? "C4" "Db4"))))
+  (is (not (theory/enharmonic? "C4" "Db4")))
+  (is (theory/enharmonic? "F##7" "Abb7")))
 
 (deftest fretboard-coord-test
   (is (= (theory/fretboard-coord "C4")
@@ -64,3 +66,17 @@
 (deftest correct-guess?-test
   (is (true? (theory/correct-guess? "A#4" {:string 3 :fret 3})))
   (is (true? (theory/correct-guess? "Bb4" {:string 3 :fret 3}))))
+
+(deftest notes-on-string-test
+  (is (= (theory/notes-on-string 6)
+         '({:string 6, :fret 0, :note "E3"}
+           {:string 6, :fret 1, :note "F3"}
+           {:string 6, :fret 2, :note "F#3"}
+           {:string 6, :fret 3, :note "G3"}
+           {:string 6, :fret 4, :note "G#3"})))
+  (is (= (theory/notes-on-string 6 {:tuning theory/drop-d-tuning})
+         '({:string 6, :fret 0, :note "D3"}
+           {:string 6, :fret 1, :note "D#3"}
+           {:string 6, :fret 2, :note "E3"}
+           {:string 6, :fret 3, :note "F3"}
+           {:string 6, :fret 4, :note "F#3"}))))

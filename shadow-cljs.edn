@@ -1,12 +1,10 @@
-{:source-paths ["src"]
+{:source-paths ["src/main" "src/test"]
  :dependencies [[cider/cider-nrepl "0.22.0"]
                 [reagent "0.8.1"]
                 [re-frame "0.10.9"]]
+ :dev-http {8080 "public"}
  :builds {:app {:target     :browser
                 :output-dir "public/js"
-                :devtools   {:http-root  "public"
-                             :http-port  8080
-                             :after-load fretbird.core/on-reload}
                 :modules    {:main {:init-fn fretbird.core/main}}}
           :test {:target    :node-test
                  :output-to "public/js/node-tests.js"

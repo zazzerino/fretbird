@@ -32,11 +32,28 @@
             :status      status))))
 
 (re-frame/reg-event-db
- ::new-note-button-click
+ ::new-note
  [check-spec-interceptor]
  (fn [db _]
    (assoc db
           :status        :playing
-          :note-to-guess (theory/random-note)
+          :note-to-guess (theory/random-note {:accidentals (:accidentals db)})
           :user-guess    nil
           :dots          [])))
+
+(defn ^:private toggle [s k]
+  (if (contains? s k)
+    (disj s k)
+    (conj s k)))
+
+(re-frame/reg-event-db
+ ::toggle-accidental
+ [check-spec-interceptor]
+ (fn [db [_ accidental]]
+   (assoc db :accidentals (toggle (:accidentals db) accidental))))
+
+(re-frame/reg-event-db
+ ::toggle-string
+ [check-spec-interceptor]
+ (fn [db [_ string]]
+   (assoc db :strings (toggle (:strings db) string))))

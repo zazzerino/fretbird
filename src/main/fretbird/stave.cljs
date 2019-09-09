@@ -55,6 +55,7 @@
     (reagent/create-class
      {:display-name         "stave"
       :reagent-render       (fn []
+                              @note
                               [:div.stave
                                [:div {:id id}]])
       :component-did-mount  draw
